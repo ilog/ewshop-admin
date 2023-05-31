@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- <link rel="icon" href="/favicon.ico"> -->
+    
+    <!-- 在谷歌浏览器中刷新不出现翻译 -->
+    <meta name="google" content="notranslate">
+    <!-- 强制chromium内核，作用与360浏览器，qq浏览器等国产双内核浏览器 -->
+    <meta name="renderer" content="webkit">
+     <!-- 强制chromium内核，作用于其他双核浏览器 -->
+    <meta name="force-rendering" content="webkit">
+    <!-- 如果有安装Google chrome frame插件则强制为chromium内核，否则强制本机支持最高版本的ie内核，作用于ie浏览器 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- 
+        content属性值
+        width：可视区域的宽度，值可以为数字或者device-width
+        height：可视区域的高度，值可以为数字或者device-height
+        initial-scale：初始的缩放比例，也即是当页面第一次 load 的时候缩放比例
+        maximum-scale：允许用户缩放到的最大比例
+        minimum-scale：允许用户缩放到的最小比例
+        user-scalable：用户是否可以手动缩放
+    -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,
+    minimum-scale=1.0,user-scalable=0">
+    <title>ewshop-admin</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
