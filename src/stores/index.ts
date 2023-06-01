@@ -7,13 +7,14 @@ export interface IUserState {
     username: string;
     avatar: string;
 }
-export const useUserStore = defineStore({
+export const useUserStore:Store<string, {}, {}, { login: object }> = defineStore({
     id: 'user',
     state: ():IUserState => ({
-        token: localStorage.getItem('token') || '',
+        token: '',
         username: '',
         avatar:'',
     }),
+    persist:true,
     getters: {
         getToken(): string {
             return this.token
@@ -31,7 +32,6 @@ export const useUserStore = defineStore({
         },
         setUserName(name: string) {
             this.username = name
-
         },
         setAvatar(avatar: string) {
             this.avatar = avatar;

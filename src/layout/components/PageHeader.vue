@@ -15,12 +15,11 @@
         <n-dropdown trigger="hover" :options="options" @select="handleSelect">
             <div class="img">
                 <n-avatar round size="small" src="https://api.shop.eduwork.cn/image/avatar.png"></n-avatar>
-                <span class="text"> admin</span>
+                <span class="text">{{ useStore.username }}</span>
             </div>
         </n-dropdown>
     </div>
 </template>
-
 <script setup lang='ts'>
 import { renderIcon } from '@/utils';
 import { ref } from 'vue';

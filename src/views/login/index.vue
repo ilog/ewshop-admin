@@ -46,7 +46,6 @@
 
 <template>
     <div class="bg">
-        <!-- <div class="logo-text">EWShopAdmin<span>ewShop-后台图书管理系统</span></div> -->
         <div class="form">
             <div class="header">Login</div>
             <n-form require-mark-placement="left" class="content" label-placement="left" ref="formRef" v-model:model="info"
