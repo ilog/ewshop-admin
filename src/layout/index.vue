@@ -1,50 +1,28 @@
 <style scoped lang="scss">
-.n-sider {
-    background-color: #001529;
-    height: 100vh;
-    .logo {
-        padding: 20px;
-        margin-left: 20%;
-    }
-}
-
-.n-header {
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    height: 50px;
-    border-bottom: 1px solid #ccc;
-    padding-right: 20px;
-}
-
 .n-content {
-    max-height: calc(100vh - 130px);
-    height: calc(100vh - 130px);
+    max-height: calc(100vh - 90px);
+    height: calc(100vh - 00px);
     background: #F0F2F5;
-}
-
-.n-footer {
-    text-align: center;
 }
 </style>
 
 <template>
     <n-layout has-sider>
-        <n-layout-sider bordered="true" class="n-sider">
-            <div class="logo">
-                <img src="@/assets/img/logo.jpg" alt="">
+        <n-layout-sider bordered=true class="h-screen bg-[#001529]">
+            <div>
+                <img class="p-5 ml-11" src="@/assets/img/logo.jpg" alt="">
             </div>
             <PageSider></PageSider>
         </n-layout-sider>
         <n-layout>
             <n-layout-header>
-                <PageHeader class="n-header"></PageHeader>
+                <PageHeader></PageHeader>
             </n-layout-header>
             <n-layout-content class="n-content">
                 <RouterView></RouterView>
             </n-layout-content>
             <n-layout-footer>
-                <div class="n-footer">
+                <div class="text-center">
                     <span>Copyright © 2020</span>
                 </div>
             </n-layout-footer>

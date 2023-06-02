@@ -1,21 +1,11 @@
-<style scoped lang="scss">
-.content {
-    .img {
-        display: flex;
-        align-items: center;
-        .text {
-            margin-left: 8px;
-        }
-    }
-}
-</style>
+<style scoped lang="scss"></style>
 
 <template>
-    <div class="content">
+    <div class="content pr-5 border-b border-solid border-[#F0F2F5] h-12 flex justify-end items-center">
         <n-dropdown trigger="hover" :options="options" @select="handleSelect">
-            <div class="img">
+            <div class="flex items-center">
                 <n-avatar round size="small" src="https://api.shop.eduwork.cn/image/avatar.png"></n-avatar>
-                <span class="text">{{ useStore.username }}</span>
+                <span class=" ml-2">{{ useStore.username }}</span>
             </div>
         </n-dropdown>
     </div>

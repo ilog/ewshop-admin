@@ -1,64 +1,19 @@
-<style scoped>
-.form {
-    width: 358px;
-    height: 488px;
-    border-radius: 15px;
-    padding: 30px;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    background-color: white;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.96;
-}
-
-.bg {
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    background-image: url('@/assets/img/login.svg');
-    background-color: #F0F2F5;
-    overflow: hidden;
-    min-height: 100vh;
-}
-
-.header {
-    font-size: 38px;
-    font-weight: bold;
-    text-align: center;
-    line-height: 150px;
-    color: #1877f2;
-}
-
-.btn {
-    border-radius: 6px;
-    /* background-image: linear-gradient(to right, #5F909E, #3A656E); */
-    cursor: pointer;
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 30px;
-    font-weight: bold;
-}
-</style>
-
+<style scoped lang="acss"></style>
 <template>
-    <div class="bg">
-        <div class="form">
-            <div class="header">Login</div>
-            <n-form require-mark-placement="left" class="content" label-placement="left" ref="formRef" v-model:model="info"
-                :rules="rules">
-                <n-form-item path="email" label="邮箱">
-                    <n-input placeholder="请输入邮箱" v-model:value="info.email" type="email" @keydown.enter.prevent />
+    <div class="bg-[url('@/assets/img/bg.jpg')] w-screen h-screen flex justify-center items-center bg-slate-50">
+        <div class="flex justify-center items-center flex-col w-96 h-2/3 overflow-hidden bg-white">
+            <div class="text-[#1877f2] pb-14 -mt-6  font-medium text-4xl">Login</div>
+            <n-form label-placement="left" class="w-80" ref="formRef" :model="formInfo" :rules="rules">
+                <n-form-item path="formInfo.email" label="邮箱:">
+                    <n-input v-model:value="formInfo.email" @keydown.enter.prevent />
                 </n-form-item>
-                <n-form-item path="password" label="密码">
-                    <n-input v-model:value="info.password" placeholder="请输入密码" type="password" @keydown.enter.prevent />
+                <n-form-item path="formInfo.password" label="密码:">
+                    <n-input v-model:value="formInfo.password" type="password" show-password-on="click"
+                        @keydown.enter.prevent />
                 </n-form-item>
                 <n-form-item>
-                    <n-button color="#1877f2" class="btn" :loading="loading" block type="success"
-                        @click="handleSubmit">登录</n-button>
+                    <n-button color="#1877f2" :loading="loading" block type="success"
+                        @click.prevent="handleSubmit">登录</n-button>
                 </n-form-item>
             </n-form>
         </div>
@@ -66,38 +21,39 @@
 </template>
 
 <script setup lang='ts'>
-import useUserStore from '@/stores';
-import { UserInfo } from '@/types/user';
+import { useUserStore } from '@/stores';
 import { useRouter } from 'vue-router';
-import { useMessage } from 'naive-ui'
+
+import { FormInst, useMessage, FormRules } from 'naive-ui'
 window.$message = useMessage()
-
 const router = useRouter()
-const useStore = useUserStore();
-const loading = ref(false)
-const formRef = ref()
+const useStore = useUserStore()
 
-const info: UserInfo = reactive({
+interface ModelType {
+    email: string | null
+    password: string | null
+}
+const formRef = ref<FormInst | null>(null)
+const formInfo = reactive<ModelType>({
     email: 'admin@api.com',
     password: '123123'
 })
-const rules = {
-    email: { required: true, message: '请输入邮箱', trigger: 'blur' },
-    password: { required: true, message: '请输入密码', trigger: 'blur' }
+const rules: FormRules = {
+    email: [{ required: true, message: "请输入正确的邮箱", trigger: 'blur' }],
+    password: [{ required: true, message: "请输入正确的密码", trigger: 'blur' }],
 }
-
-const handleSubmit = (e: Event) => {
-    // 取消默认事件
-    e.preventDefault()
-    formRef.value?.validate(async (error: object) => {
-        if (error) return
-        loading.value = true
-        useStore.login(info).then(() => {
-            window.$message.success('登录成功')
-            router.push('/dashboard/console');
-        })
-        loading.value = false
+let loading = ref(false)
+const handleSubmit =async function(){
+    formRef.value?.validate(errors => {
+        if (errors) return
     })
-
+    loading.value = true
+    try {
+        useStore.login(formInfo).then((res) => {
+            window.$message.success('登录成功')
+            router.push('/dashboard');
+            loading.value = false
+        })
+    } catch { }
 }
 </script>

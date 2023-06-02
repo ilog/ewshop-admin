@@ -7,14 +7,14 @@ export interface IUserState {
     username: string;
     avatar: string;
 }
-export const useUserStore:Store<string, {}, {}, { login: object }> = defineStore({
+export const useUserStore: Store<string, {}, {}, { login: object }> = defineStore({
     id: 'user',
-    state: ():IUserState => ({
+    state: (): IUserState => ({
         token: '',
         username: '',
-        avatar:'',
+        avatar: '',
     }),
-    persist:true,
+    persist: true,
     getters: {
         getToken(): string {
             return this.token
@@ -38,26 +38,25 @@ export const useUserStore:Store<string, {}, {}, { login: object }> = defineStore
         },
         // 登录
         async login(userInfo: UserInfo) {
-            const response = await api_login(userInfo)
-            if (response.data.access_token) {
-                this.setToken(response.data.access_token)
-                localStorage.setItem('token', this.token)
-                this.getUser()
-            }
-            return response
-
+            try {
+                const response = await api_login(userInfo);
+                if (response.data.access_token) {
+                    this.setToken(response.data.access_token);
+                    localStorage.setItem('token', this.token)
+                    this.getUser()
+                }
+                return response
+            } catch { }
         },
         // 获取用户信息
-        async getUser(){
+        async getUser() {
             try {
                 const response = await api_getUserInfo();
-                // console.log(response.data);
                 this.setAvatar(response.data.avatar ?? "https://api.shop.eduwork.cn/image/avatar.png");
                 this.setUserName(response.data.name);
-                
                 return response;
-            } catch {}
-                
+            } catch { }
+
         }
     }
 })

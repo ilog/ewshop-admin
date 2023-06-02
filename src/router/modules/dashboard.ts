@@ -1,11 +1,10 @@
 import type { RouteRecord } from "vue-router";
-import Layout from '@/layout/index.vue'
 import { NIcon } from "naive-ui";
 import { renderIcon } from '@/utils'
 import { Browsers } from "@vicons/ionicons5";
-
 const routeName = 'dashboard'
 
+import Layout from '@/layout/index.vue'
 const routes: Array<RouteRecord> = [
     {
         path: '/dashboard',
@@ -23,8 +22,7 @@ const routes: Array<RouteRecord> = [
                 name: `${routeName}_console`,
                 component: () => import('@/views/layout/dashboard/index.vue'),
                 meta: {
-                    title: '主控台',
-                    icon: 'console'
+                    title: '主控台'
                 },
             }
         ]

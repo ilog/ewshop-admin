@@ -41,6 +41,7 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: routes
 })
+// 前置守卫
 router.beforeEach((to) => {
     // 刚进入页面加载进度条
     Vnode.component?.exposed?.startLoading()
@@ -52,9 +53,11 @@ router.beforeEach((to) => {
     }
     return
 })
+// 后置守卫
 router.afterEach((to,from) => {
     // 结束页面结束进度条
     Vnode.component?.exposed?.endLoading()
 })
+
 export { routeModuleList }
 export default router
