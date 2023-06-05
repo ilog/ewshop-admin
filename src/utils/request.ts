@@ -24,7 +24,9 @@ request.interceptors.response.use(
 
         switch (response.status) {
             case 401: window.$message.error('账号或密码错误'); break;
-            case 422: window.$message.error('参数异常'); break;
+            case 422: 
+                let msg = response.data.errors[Object.keys(response.data.errors)[0]][0] ?? '参数异常'
+                window.$message.error(msg); break;
             case 500:
             case 502: window.$message.error('网络异常'); break;
 

@@ -19,10 +19,10 @@
                     <n-input v-model:value="search.email" placeholder="请输入邮箱" />
                 </n-form-item>
                 <n-form-item class="ml-auto">
-                    <n-button class="mr-4" attr-type="button" @click="searchReload">
+                    <n-button class="mr-4" attr-type="button" @click.prevent="searchReload">
                         重置
                     </n-button>
-                    <n-button type="info" attr-type="button" @click="searchSubmit">
+                    <n-button type="info" attr-type="button" @click.prevent="searchSubmit">
                         搜索
                     </n-button>
                 </n-form-item>
@@ -31,7 +31,10 @@
     </div>
     <div class="px-5">
         <div class="bg-white">
-            <div class="text-xl pt-4 py-4 pl-4">用户列表</div>
+            <div class="text-xl px-5 py-4  flex justify-between">
+                <span>用户列表</span>
+                <span><n-button @click.prevent="showModal = true">添加用户</n-button></span>
+            </div>
             <div>
                 <n-data-table :columns="columns" :data="data" :bordered="false" />
                 <div class="p-4 flex justify-end pr-10">
@@ -40,12 +43,15 @@
             </div>
         </div>
     </div>
+    <add-user :reform="true" :showModal="showModal" @changeShowModal="changeShowModal" @reloadTable="reload"></add-user>
+    <edit-user v-if="showEditModal" :user_id="user_id" :showEditModal="showEditModal" @changeEditModal="changeEditModal" @reloadTable="reload"></edit-user>
 </template>
 
 <script setup lang='ts'>
-import { h, defineComponent } from 'vue'
+import AddUser from './components/AddUser.vue';
+import EditUser from './components/EditUser.vue';
+import { h } from 'vue'
 import { NAvatar, NButton, NSwitch, useMessage } from 'naive-ui'
-import type { DataTableColumns } from 'naive-ui'
 import { api_getUserList } from '@/api/users';
 const message = useMessage()
 const columns = [
@@ -93,7 +99,8 @@ const columns = [
                 color: '#1890ff',
                 strong: true,
                 onClick: () => {
-                    message.info('正在编辑' + row.name)
+                    user_id.value = row.id 
+                    showEditModal.value = true
                 }
             }, '编辑')
         }
@@ -103,22 +110,13 @@ const data = ref<object[]>([])
 const totalPages = ref<number>(0)
 const page = ref<number>(1)
 // 初始化列表
-const listInit = () => {
-    api_getUserList({ current: page.value }).then(res => {
+const listInit = (params: object) => {
+    api_getUserList(params).then(res => {
         data.value = res.data.data
         totalPages.value = res.data.meta.pagination.total_pages
         page.value = res.data.meta.pagination.current_page
     })
 }
-onMounted(() => {
-   listInit()
-})
-// 更新页数 重新渲染
-const updatePage = (pageNum: number) => {
-    page.value = pageNum
-    listInit()
-}
-
 interface search {
     email: string,
     name: string
@@ -128,10 +126,48 @@ const search = reactive<search>({
     name: ''
 })
 
-const searchReload = () => {
-
+onMounted(() => {
+    listInit({})
+})
+// 更新页数 重新渲染
+const updatePage = (pageNum: number) => {
+    listInit({
+        current: pageNum,
+        name: search.name,
+        email: search.email
+    })
 }
+// 重置按钮
+const searchReload = () => {
+    search.name = ''
+    search.email = ''
+    listInit({})
+}
+// 提交按钮
 const searchSubmit = () => {
-
+    listInit({
+        name: search.name,
+        email: search.email,
+        current: 1
+    })
+}
+// 添加用户
+const showModal = ref(false)
+// 编辑用户
+const showEditModal = ref(false)
+const user_id = ref('')
+const changeShowModal = (status:boolean) => {
+    showModal.value = status
+}
+const changeEditModal = (status:boolean) => {
+    showEditModal.value = status
+}
+// 添加后刷新列表
+const reload = () => {
+    listInit({
+        name: search.name,
+        email: search.email,
+        current: 1
+    })
 }
 </script>

@@ -5,11 +5,11 @@
             <div class="text-[#1877f2] pb-14 -mt-6  font-medium text-4xl">Login</div>
             <n-form label-placement="left" class="w-80" ref="formRef" :model="formInfo" :rules="rules">
                 <n-form-item path="formInfo.email" label="邮箱:">
-                    <n-input v-model:value="formInfo.email" @keydown.enter.prevent />
+                    <n-input v-model:value="formInfo.email" @keydown.enter.prevent placeholder="请输入邮箱" />
                 </n-form-item>
                 <n-form-item path="formInfo.password" label="密码:">
                     <n-input v-model:value="formInfo.password" type="password" show-password-on="click"
-                        @keydown.enter.prevent />
+                        @keydown.enter.prevent placeholder="请输入密码" />
                 </n-form-item>
                 <n-form-item>
                     <n-button color="#1877f2" :loading="loading" block type="success"
@@ -43,7 +43,7 @@ const rules: FormRules = {
     password: [{ required: true, message: "请输入正确的密码", trigger: 'blur' }],
 }
 let loading = ref(false)
-const handleSubmit =async function(){
+const handleSubmit = async function () {
     formRef.value?.validate(errors => {
         if (errors) return
     })

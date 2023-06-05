@@ -8,7 +8,7 @@
 
 <template>
     <n-layout has-sider>
-        <n-layout-sider bordered=true class="h-screen bg-[#001529]">
+        <n-layout-sider bordered:true class="h-screen bg-[#001529]">
             <div>
                 <img class="p-5 ml-11" src="@/assets/img/logo.jpg" alt="">
             </div>

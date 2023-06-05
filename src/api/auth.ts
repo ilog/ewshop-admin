@@ -8,10 +8,12 @@ export function api_login(data: object) {
         data
     })
 }
+
 // 获取用户信息
-export function api_getUserInfo() {
-    return request('/api/admin/user')
+export function api_getLoginInfo() {
+    return request( '/api/admin/user' )
 }
+
 // 退出登录
 export function api_logout() {
     return request({

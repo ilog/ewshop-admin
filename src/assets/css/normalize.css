@@ -7,10 +7,20 @@
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+ /* tailwind  */
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+ /* 解决tailwind样式跟naive-ui样式冲突  以naive-ui为主*/
+ @layer base {
+ 
+     button,
+     [type='button'],
+     [type='reset'],
+     [type='submit'] {
+         background-color: var(--n-color);
+     }
+ }
 
 html {
     line-height: 1.15;
@@ -25,19 +35,7 @@ html {
  * Remove the margin in all browsers.
  */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-@layer base {
-
-    button,
-    [type='button'],
-    [type='reset'],
-    [type='submit'] {
-        background-color: var(--n-color);
-    }
-}
 
 body {
     margin: 0;

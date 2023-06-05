@@ -1,4 +1,4 @@
-import { api_login, api_getUserInfo } from "@/api/auth";
+import { api_login, api_getLoginInfo } from "@/api/auth";
 import { UserInfo } from "@/types/user";
 import { defineStore } from "pinia";
 
@@ -16,15 +16,7 @@ export const useUserStore: Store<string, {}, {}, { login: object }> = defineStor
     }),
     persist: true,
     getters: {
-        getToken(): string {
-            return this.token
-        },
-        getUserName(): string {
-            return this.username
-        },
-        getAvatar(avatar: string) {
-            return this.avatar
-        },
+
     },
     actions: {
         setToken(token: string) {
@@ -51,7 +43,9 @@ export const useUserStore: Store<string, {}, {}, { login: object }> = defineStor
         // 获取用户信息
         async getUser() {
             try {
-                const response = await api_getUserInfo();
+                const response = await api_getLoginInfo();
+                console.log(response);
+                
                 this.setAvatar(response.data.avatar ?? "https://api.shop.eduwork.cn/image/avatar.png");
                 this.setUserName(response.data.name);
                 return response;

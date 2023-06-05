@@ -31,7 +31,6 @@ let timer = ref<number>(0)
 const startLoading = () => {    
     speed.value = 1;
     let dom = bar.value as HTMLElement
-    // console.log(dom);
     timer.value = window.requestAnimationFrame(function fn() {
         if (speed.value < 90) {
             speed.value += 5;

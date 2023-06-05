@@ -23,6 +23,7 @@ Object.keys(modules).forEach((key) => {
     routeModuleList.push(...modList)
 })
 
+
 const Login = () => import('@/views/login/index.vue')
 const baseRoutes = [
     {
