@@ -55,7 +55,7 @@ router.beforeEach((to) => {
     return
 })
 // 后置守卫
-router.afterEach((to,from) => {
+router.afterEach(() => {
     // 结束页面结束进度条
     Vnode.component?.exposed?.endLoading()
 })

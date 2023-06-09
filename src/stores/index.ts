@@ -38,13 +38,12 @@ export const useUserStore: Store<string, {}, {}, { login: object }> = defineStor
                     this.getUser()
                 }
                 return response
-            } catch { }
+            } catch{}
         },
         // 获取用户信息
         async getUser() {
             try {
                 const response = await api_getLoginInfo();
-                console.log(response);
                 
                 this.setAvatar(response.data.avatar ?? "https://api.shop.eduwork.cn/image/avatar.png");
                 this.setUserName(response.data.name);

@@ -58,7 +58,7 @@ const emit = defineEmits(['changeShowModal', 'reloadTable'])
 
 const userSubmit = () => {
     formRef.value?.validate(err => { if (err) return });
-    api_addUser(formInfo).then(res => {
+    api_addUser(formInfo).then(() => {
         emit('changeShowModal', false)
         emit('reloadTable')
         message.success('添加成功')

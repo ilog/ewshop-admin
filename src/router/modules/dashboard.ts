@@ -1,5 +1,4 @@
 import type { RouteRecord } from "vue-router";
-import { NIcon } from "naive-ui";
 import { renderIcon } from '@/utils'
 import { Browsers } from "@vicons/ionicons5";
 const routeName = 'dashboard'

@@ -16,8 +16,8 @@ export function generatorMenu(routerMap: Array<any>) {
     // 排序 按照meta里的sort 小的在上
     routerMap.sort((a, b) => a.meta.sort - b.meta.sort)
     // 遍历
-    let result = routerMap.map(item => {
-        let menu: MenuOption = {
+    const result = routerMap.map(item => {
+        const menu: MenuOption = {
             label: item?.meta?.title,
             key: item?.name,
             icon: item?.meta?.icon,

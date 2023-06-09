@@ -44,36 +44,39 @@
         </div>
     </div>
     <add-user :reform="true" :showModal="showModal" @changeShowModal="changeShowModal" @reloadTable="reload"></add-user>
-    <edit-user v-if="showEditModal" :user_id="user_id" :showEditModal="showEditModal" @changeEditModal="changeEditModal" @reloadTable="reload"></edit-user>
+    <edit-user v-if="showEditModal" :user_id="user_id" :showEditModal="showEditModal" @changeEditModal="changeEditModal"
+        @reloadTable="reload"></edit-user>
 </template>
 
 <script setup lang='ts'>
 import AddUser from './components/AddUser.vue';
 import EditUser from './components/EditUser.vue';
 import { h } from 'vue'
-import { NAvatar, NButton, NSwitch, useMessage } from 'naive-ui'
-import { api_getUserList } from '@/api/users';
+import { DataTableColumn, NAvatar, NButton, NSwitch,useMessage } from 'naive-ui'
+import { api_getUserList, api_getUserLock } from '@/api/users';
 const message = useMessage()
-const columns = [
+const columns: Array<DataTableColumn> = [
     {
         title: '头像',
         key: 'avatar_url',
         render(row: object) {
-            // return h('img',{src:row.avatar_url,class:'w-10 h-10 rounded-full'})
             return h(NAvatar, { round: true, src: row['avatar_url'], size: 'medium' })
-        }
+        },
+        align: 'center'
     },
     {
         title: '姓名',
-        key: 'name'
+        key: 'name',
+        align: 'center'
     },
     {
         title: '邮箱',
-        key: 'email'
+        key: 'email',
+        align: 'center'
     },
     {
         title: '是否禁用',
-        key: 'status',
+        key: 'is_locked',
         render(row) {
             return h(NSwitch, {
                 size: 'medium',
@@ -82,13 +85,19 @@ const columns = [
                 inactiveColor: '#d9d9d9',
                 activeValue: 1,
                 inactiveValue: 0,
-                value: row.is_locked === 1 ? false : true
+                value: row.is_locked === 1 ? false : true,
+                onclick: () => {
+                    row.is_locked == 0 ? row.is_locked = 1 : row.is_locked = 0;
+                    handleChange(row)
+                }
             })
-        }
+        },
+        align: 'center'
     },
     {
         title: '创建时间',
-        key: 'created_at'
+        key: 'created_at',
+        align: 'center'
     },
     {
         title: '操作',
@@ -99,13 +108,20 @@ const columns = [
                 color: '#1890ff',
                 strong: true,
                 onClick: () => {
-                    user_id.value = row.id 
+                    user_id.value = row.id
                     showEditModal.value = true
                 }
             }, '编辑')
-        }
+        },
+        align: 'center'
     }
 ]
+const handleChange = (row) => {
+	api_getUserLock(row.id).then(()=>{
+		//可以在此处设置验证是否进行状态的修改
+		message.info("禁用状态已修改");
+	});
+};
 const data = ref<object[]>([])
 const totalPages = ref<number>(0)
 const page = ref<number>(1)
@@ -155,11 +171,11 @@ const searchSubmit = () => {
 const showModal = ref(false)
 // 编辑用户
 const showEditModal = ref(false)
-const user_id = ref('')
-const changeShowModal = (status:boolean) => {
+const user_id = ref()
+const changeShowModal = (status: boolean) => {
     showModal.value = status
 }
-const changeEditModal = (status:boolean) => {
+const changeEditModal = (status: boolean) => {
     showEditModal.value = status
 }
 // 添加后刷新列表

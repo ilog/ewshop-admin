@@ -33,3 +33,13 @@ export function api_updateUser(userId,data) {
         data
     })
 }
+
+// 禁用和启用
+export  function api_getUserLock(userid) {
+	return request(
+		{
+			url: `/api/admin/users/${userid}/lock`,
+			method: "PATCH"
+		}
+	);
+}

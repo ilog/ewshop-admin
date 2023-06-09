@@ -49,7 +49,7 @@ const handleSubmit = async function () {
     })
     loading.value = true
     try {
-        useStore.login(formInfo).then((res) => {
+        useStore.login(formInfo).then(() => {
             window.$message.success('登录成功')
             router.push('/dashboard');
             loading.value = false
